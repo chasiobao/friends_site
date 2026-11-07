@@ -90,6 +90,124 @@
     }
 
     /* ==========================================================================
+       ЭКРАН ЗАГРУЗКИ (ПРЕЛОАДЕР)
+       ========================================================================== */
+    .preloader-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      background-color: var(--color-bg);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      overflow: hidden;
+      touch-action: none;
+      transition: opacity 0.8s var(--ease-smooth), visibility 0.8s ease;
+      will-change: opacity;
+    }
+
+    .preloader-screen.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Фоновая плавная извивающаяся розовая нить */
+    .preloader-bg-line {
+      position: absolute;
+      width: 140%;
+      height: 140%;
+      pointer-events: none;
+      opacity: 0.4;
+      animation: floatSwirl 7s ease-in-out infinite alternate;
+    }
+
+    .preloader-swirl-path {
+      stroke: var(--color-pink);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 0;
+      animation: drawSwirl 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatSwirl {
+      0% { transform: rotate(-6deg) scale(0.95); }
+      100% { transform: rotate(6deg) scale(1.05); }
+    }
+
+    @keyframes drawSwirl {
+      0% { stroke-dashoffset: 420; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    .preloader-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* Процент шрифтом Friends */
+    .preloader-percent {
+      font-family: var(--font-heading);
+      font-size: 68px;
+      line-height: 1;
+      color: var(--color-text);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      margin-bottom: 6px;
+    }
+
+    /* Необычная кривая полоска прогресса */
+    .preloader-bar-wrap {
+      width: 220px;
+      height: 32px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .preloader-bar-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .preloader-bar-bg {
+      stroke: rgba(58, 54, 54, 0.12);
+      stroke-width: 5;
+      stroke-linecap: round;
+    }
+
+    .preloader-bar-fill {
+      stroke: var(--color-pink);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 210;
+      stroke-dashoffset: 210;
+      transition: stroke-dashoffset 0.2s ease-out;
+    }
+
+    /* Рукописный текст */
+    .preloader-caption {
+      font-family: var(--font-heading);
+      font-size: 25px;
+      color: var(--color-text);
+      opacity: 0.88;
+      letter-spacing: 0.04em;
+    }
+
+    /* ==========================================================================
        2. СЛАЙД 1: ЗАСТАВКА
        ========================================================================== */
     .slide-intro {
@@ -1247,6 +1365,27 @@
 </head>
 <body>
 
+  <!-- ==================== ПРЕЛОАДЕР (LOADING OUR STORY...) ==================== -->
+  <div class="preloader-screen" id="preloaderScreen">
+    <svg class="preloader-bg-line" viewBox="0 0 400 400" fill="none">
+      <path class="preloader-swirl-path" d="M -40 200 C 60 80, 140 320, 200 200 C 260 80, 340 320, 440 200" />
+    </svg>
+
+    <div class="preloader-content">
+      <div class="preloader-percent" id="preloaderPercent">0%</div>
+
+      <!-- Необычная кривая полоска прогресса (SVG линия с заливкой) -->
+      <div class="preloader-bar-wrap">
+        <svg class="preloader-bar-svg" viewBox="0 0 220 30" fill="none">
+          <path class="preloader-bar-bg" d="M 10 15 C 45 6, 75 24, 110 15 C 145 6, 175 24, 210 15" />
+          <path class="preloader-bar-fill" id="preloaderBarFill" d="M 10 15 C 45 6, 75 24, 110 15 C 145 6, 175 24, 210 15" />
+        </svg>
+      </div>
+
+      <div class="preloader-caption">loading our story...</div>
+    </div>
+  </div>
+
   <!-- ==================== АУДИО ТРЕКИ ==================== -->
   <audio id="audioTrack1" src="страницы сайта/IMG_4679.mp3" preload="auto" loop playsinline webkit-playsinline></audio>
   <audio id="audioTrack2" src="страницы сайта/Grey_Wiese_-_Parlez-moi_de_lui_(Bib.fm).aac" preload="auto" loop playsinline webkit-playsinline></audio>
@@ -1445,7 +1584,7 @@
 
             <div class="fact-photos-grid">
               <div class="fact-photo-col"><img src="фотки/карусель (2)/(3 слайд)/0001.jpg" alt="" onerror="loadImg(this, ['фотки/карусель (2)/(3 слайд)/0001.jpg', 'страницы сайта/cтраницы-карусель (2)/(3 слайд)/0001.jpg'])"></div>
-              <div class="fact-photo-col"><img src="фотки/карусель (2)/(3 слайд)/0002.jpg" alt="" onerror="loadImg(this, ['фотки/карусель (2)/(3 слайд)/0002.jpg', 'страницы сайта/cтраницы-карусель (2)/(3 слайд)/0002.jpg'])"></div>
+              <div class="fact-photo-col"><img src="фотки/карусель (2)/(3 слайд)/0002.jpg" alt="" onerror="loadImg(this, ['фотки/карусель (2)/(3 слайд)/0002.jpg', 'страницы сайта/cтраницы-карусель (2)/(3 слайд)/0002.jpg'])"></div>
               <div class="fact-photo-col"><img src="фотки/карусель (2)/(3 слайд)/003.jpg" alt="" onerror="loadImg(this, ['фотки/карусель (2)/(3 слайд)/003.jpg', 'страницы сайта/cтраницы-карусель (2)/(3 слайд)/003.jpg'])"></div>
               <div class="fact-photo-col"><img src="фотки/карусель (2)/(3 слайд)/004.jpg" alt="" onerror="loadImg(this, ['фотки/карусель (2)/(3 слайд)/004.jpg', 'страницы сайта/cтраницы-карусель (2)/(3 слайд)/004.jpg'])"></div>
             </div>
@@ -1498,7 +1637,6 @@
               <div class="star-bottom-row">
                 <img 
                   class="sticker-star--bottom"
-                  style="width: 150px;"
                   src="фотки/карусель (2)/(4 слайд)/пнг стикеры/пнг3-Photoroom 2.png" 
                   alt="" 
                   onerror="loadImg(this, [
@@ -1881,6 +2019,11 @@
         this.replayBtn = document.getElementById('replayBtn');
         this.soundBtn = document.getElementById('soundBtn');
 
+        // Прелоадер
+        this.preloaderScreen = document.getElementById('preloaderScreen');
+        this.preloaderPercent = document.getElementById('preloaderPercent');
+        this.preloaderBarFill = document.getElementById('preloaderBarFill');
+
         this.audioTrack1 = document.getElementById('audioTrack1');
         this.audioTrack2 = document.getElementById('audioTrack2');
         this.isAudioMuted = false;
@@ -1923,9 +2066,121 @@
         this.initAudioLogic();
         this.bindEvents();
 
-        window.addEventListener('DOMContentLoaded', () => {
-          setTimeout(() => this.runSlideOneAnimation(), 120);
+        // Запуск умного прелоадера (анимации сайта начнутся ТОЛЬКО после 100%)
+        this.initPreloader();
+      }
+
+      /* ========================================================
+         ПРЕДЗАГРУЗКА ВСЕХ МЕДИА (УМНЫЙ ПРЕЛОАДЕР)
+         ======================================================== */
+      initPreloader() {
+        if (!this.preloaderScreen) {
+          this.runSlideOneAnimation();
+          return;
+        }
+
+        // Блокируем скролл страницы на время показа прелоадера
+        this.appScreen.scrollTop = 0;
+
+        // Настройка SVG волнистой полоски
+        if (this.preloaderBarFill) {
+          this.barLength = this.preloaderBarFill.getTotalLength() || 210;
+          this.preloaderBarFill.style.strokeDasharray = `${this.barLength} ${this.barLength}`;
+          this.preloaderBarFill.style.strokeDashoffset = this.barLength;
+        }
+
+        // Собираем все реальные изображения со страницы
+        const allImgs = Array.from(document.querySelectorAll('img'));
+        const uniqueUrls = new Set();
+        allImgs.forEach(img => {
+          const src = img.getAttribute('src');
+          if (src) uniqueUrls.add(src);
         });
+
+        const urlsArray = Array.from(uniqueUrls);
+        const totalItems = urlsArray.length + 2; // фото + музыка/шрифты
+        let loadedItems = 0;
+        let displayedProgress = 0;
+        let isDone = false;
+
+        // Плавное обновление процентов и линии через requestAnimationFrame
+        const updateProgressUI = () => {
+          const target = Math.min(100, Math.floor((loadedItems / totalItems) * 100));
+          if (displayedProgress < target) {
+            displayedProgress += Math.max(1, Math.floor((target - displayedProgress) * 0.15));
+          }
+
+          if (this.preloaderPercent) {
+            this.preloaderPercent.textContent = `${displayedProgress}%`;
+          }
+
+          if (this.preloaderBarFill && this.barLength) {
+            const offset = this.barLength * (1 - (displayedProgress / 100));
+            this.preloaderBarFill.style.strokeDashoffset = offset;
+          }
+
+          if (displayedProgress >= 100 && !isDone) {
+            isDone = true;
+            this.finishPreloader();
+            return;
+          }
+
+          if (!isDone) {
+            requestAnimationFrame(updateProgressUI);
+          }
+        };
+
+        const onItemLoaded = () => {
+          loadedItems++;
+        };
+
+        // Загружаем каждое фото в память
+        urlsArray.forEach(url => {
+          const tempImg = new Image();
+          tempImg.onload = onItemLoaded;
+          tempImg.onerror = onItemLoaded; // ошибка тоже считается, чтобы сайт не завис
+          tempImg.src = url;
+        });
+
+        // Предзагрузка шрифтов
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(() => onItemLoaded()).catch(() => onItemLoaded());
+        } else {
+          onItemLoaded();
+        }
+
+        // Предзагрузка первого трека
+        if (this.audioTrack1) {
+          try {
+            this.audioTrack1.load();
+          } catch(e) {}
+          onItemLoaded();
+        } else {
+          onItemLoaded();
+        }
+
+        // Запуск анимации шкалы
+        requestAnimationFrame(updateProgressUI);
+
+        // Страховочный таймер: максимум через 5 секунд в любом случае пускаем на сайт
+        setTimeout(() => {
+          if (!isDone) {
+            loadedItems = totalItems;
+          }
+        }, 5000);
+      }
+
+      finishPreloader() {
+        setTimeout(() => {
+          // 1. Плавно растворяем экран загрузки
+          this.preloaderScreen.classList.add('is-hidden');
+
+          // 2. РОВНО СЕЙЧАС (не раньше!) начинаем анимацию первого слайда
+          setTimeout(() => {
+            this.runSlideOneAnimation();
+            this.preloaderScreen.style.display = 'none';
+          }, 400);
+        }, 300);
       }
 
       /* ========================================================
@@ -1937,11 +2192,11 @@
         this.audioTrack1.volume = 0.85;
         this.audioTrack2.volume = 0.85;
 
-        // Авто-перебор путей для Трека 1 (Sade)
+        // Авто-перебор путей для Трека 1
         const track1Fallbacks = [
-          'страницы сайта/sade-sade-kiss-o-life-68.mp3',
-          'страницы сайта/sade-sade-kiss-o-life-68.mp3',
-          'sade-sade-kiss-o-life-68.mp3'
+          'страницы сайта/IMG_4679.mp3',
+          'страницы сайта/IMG_4679.mp3',
+          'IMG_4679.mp3'
         ];
         let t1Try = 0;
         this.audioTrack1.addEventListener('error', () => {
@@ -1971,9 +2226,8 @@
         // Запуск при первом касании (СТРОГО ОДИН РАЗ И ТОЛЬКО ТРЕК 1)
         const playOnFirstTouch = () => {
           if (this.isAudioMuted || this.audioInitiated) return;
-          this.audioInitiated = true; // Защита от дублей клика в Сафари
+          this.audioInitiated = true;
 
-          // Запускаем ИСКЛЮЧИТЕЛЬНО ТРЕК 1
           this.audioTrack1.play().then(() => {
             const hint = document.getElementById('soundHint');
             if (hint) {
@@ -1984,7 +2238,6 @@
             this.audioInitiated = false;
           });
 
-          // Для второго трека делаем ТОЛЬКО .load() (без .play(), чтобы не орал сразу!)
           try {
             this.audioTrack2.load();
           } catch (e) {}
@@ -2300,27 +2553,22 @@
 
         // 2. ЖЕЛЕЗНОЕ ПЕРЕКЛЮЧЕНИЕ МУЗЫКИ
         if (!this.isLetterOpened) {
-          // ДО ШТОР: На всех начальных слайдах играет ТОЛЬКО Трек 1 (Sade)
           if (this.activeTrack !== 1) {
             this.switchTrack(1);
           }
         } else {
-          // ПИСЬМО ОТКРЫТО: проверяем подход к шторам
           const curtainRect = this.curtainSection.getBoundingClientRect();
 
-          // ТОЛЬКО НА ШТОРАХ И ДАЛЕЕ играет Трек 2 (Grey Wiese)
           if (curtainRect.top <= containerHeight * 0.5) {
             if (this.activeTrack !== 2) {
               this.switchTrack(2);
             }
           } else {
-            // Если проскроллили обратно наверх (к письму/подарку) — возвращается Трек 1
             if (this.activeTrack !== 1) {
               this.switchTrack(1);
             }
           }
 
-          // Анимация раскрытия штор
           const totalCurtainScroll = this.curtainSection.offsetHeight - containerHeight;
           const currentCurtainScrolled = -curtainRect.top;
           const curtainProgress = Math.min(Math.max(currentCurtainScrolled / totalCurtainScroll, 0), 1);
